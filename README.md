@@ -7,12 +7,11 @@ npm i
 ```
 Run project:
 ```bash
-npm run run start
+npm run start
 ```
-or for server reloads on files change:
-
+or with pm2 
 ```bash
-npm run run start:dev
+npm run start:pm2
 ```
 ## Curl example:
 ```bash
