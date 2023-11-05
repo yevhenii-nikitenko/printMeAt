@@ -15,8 +15,8 @@ export default class Queue {
       Date.now()
     );
 
-    jobs.map(job => cb(JSON.parse(job)));
-
     jobs.length && await this.redis.zrem(this.queueName, ...jobs);
+
+    jobs.map(job => cb(JSON.parse(job)));
   }
 }

@@ -13,6 +13,10 @@ or with pm2
 ```bash
 npm run start:pm2
 ```
+Do not forget to stop pm2 processes and flush logs with the command
+```bash
+npm run pm2:reset
+```
 ## Curl example:
 ```bash
 curl --location 'http://localhost:3000/echoAtTime' \
