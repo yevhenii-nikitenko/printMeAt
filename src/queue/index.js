@@ -12,11 +12,24 @@ export default class Queue {
     const jobs = await this.redis.zrangebyscore(
       this.queueName,
       0,
-      Date.now()
+      Date.now(),
+      (err, data) => {
+        data.length && this.redis.zrem(this.queueName, ...data);
+      }
     );
 
-    jobs.length && await this.redis.zrem(this.queueName, ...jobs);
+    jobs.map(async jobString => {
+      const job = JSON.parse(jobString);
 
-    jobs.map(job => cb(JSON.parse(job)));
+      const set = await this.redis.setnx(job.id, true);
+
+      if (set) {
+        cb(job);
+
+        await this.redis.del(job.id)
+      } else {
+        return;
+      }
+    });
   }
 }

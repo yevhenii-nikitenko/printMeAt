@@ -15,7 +15,7 @@ export class PrintAtTimeService {
 
     setInterval(async () => {
       await this.queue.process(this.print);
-    }, 1000);
+    }, 1);
   }
 
   async schedule(job) {
