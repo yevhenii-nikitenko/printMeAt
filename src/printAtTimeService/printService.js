@@ -22,8 +22,7 @@ export class PrintAtTimeService {
     await this.queue.add(job);
   }
 
-  // maybe some async stuff needed
-  async print(job) {
+  print(job) {
     console.log(job.message);
   }
 }

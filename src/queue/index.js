@@ -9,20 +9,14 @@ export default class Queue {
   }
 
   async process(cb) {
-    const jobData = await this.redis.zrangebyscore(
+    const jobs = await this.redis.zrangebyscore(
       this.queueName,
       0,
       Date.now()
     );
 
-    if (jobData?.length) {
-      const job = JSON.parse(jobData[0]);
+    jobs.map(job => cb(JSON.parse(job)));
 
-      if (job.printTime <= Date.now()) {
-        await cb(job);
-
-        await this.redis.zrem(this.queueName, jobData[0]);
-      }
-    }
+    jobs.length && await this.redis.zrem(this.queueName, ...jobs);
   }
 }
